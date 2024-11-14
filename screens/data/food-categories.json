@@ -1,0 +1,113 @@
+[
+    {
+      "id": 1,
+      "name": "Fruits",
+      "image": "https://example.com/fruits.jpg",
+      "items": [
+        {
+          "id": 1,
+          "name": "Apple",
+          "image": "https://example.com/apple.jpg"
+        },
+        {
+          "id": 2,
+          "name": "Banana",
+          "image": "https://example.com/banana.jpg"
+        },
+        {
+          "id": 3,
+          "name": "Grapes",
+          "image": "https://example.com/grapes.jpg"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Vegetables",
+      "image": "https://example.com/vegetables.jpg",
+      "items": [
+        {
+          "id": 1,
+          "name": "Carrot",
+          "image": "https://example.com/carrot.jpg"
+        },
+        {
+          "id": 2,
+          "name": "Broccoli",
+          "image": "https://example.com/broccoli.jpg"
+        },
+        {
+          "id": 3,
+          "name": "Spinach",
+          "image": "https://example.com/spinach.jpg"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Grains",
+      "image": "https://example.com/grains.jpg",
+      "items": [
+        {
+          "id": 1,
+          "name": "Rice",
+          "image": "https://example.com/rice.jpg"
+        },
+        {
+          "id": 2,
+          "name": "Wheat",
+          "image": "https://example.com/wheat.jpg"
+        },
+        {
+          "id": 3,
+          "name": "Quinoa",
+          "image": "https://example.com/quinoa.jpg"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Dairy",
+      "image": "https://example.com/dairy.jpg",
+      "items": [
+        {
+          "id": 1,
+          "name": "Milk",
+          "image": "https://example.com/milk.jpg"
+        },
+        {
+          "id": 2,
+          "name": "Cheese",
+          "image": "https://example.com/cheese.jpg"
+        },
+        {
+          "id": 3,
+          "name": "Yogurt",
+          "image": "https://example.com/yogurt.jpg"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Meats",
+      "image": "https://example.com/meats.jpg",
+      "items": [
+        {
+          "id": 1,
+          "name": "Chicken",
+          "image": "https://example.com/chicken.jpg"
+        },
+        {
+          "id": 2,
+          "name": "Beef",
+          "image": "https://example.com/beef.jpg"
+        },
+        {
+          "id": 3,
+          "name": "Pork",
+          "image": "https://example.com/pork.jpg"
+        }
+      ]
+    }
+  ]
+  
