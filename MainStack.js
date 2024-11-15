@@ -3,6 +3,7 @@ import HomeScreen from './screens/HomeScreen';
 import RecipeListScreen from './screens/RecipeListScreen';
 import RecipeDetailScreen from './screens/RecipeDetailScreen';
 import DrawerNavigator from './DrawerNavigator';
+import PostBeverage from './screens/BeveragePairing';
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ const MainStack = () => {
       <Stack.Screen name="MainHome" component={HomeScreen} />
       <Stack.Screen name="RecipeList" component={RecipeListScreen} />
       <Stack.Screen name="RecipeDetail" component={RecipeDetailScreen} />
+      <Stack.Screen name="BeveragePairing" component={PostBeverage} />
       
     </Stack.Navigator>
   );

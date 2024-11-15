@@ -1,11 +1,15 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet, ActivityIndicator,ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native';
+// import { useNavigation } from '@react-navigation/native';
 
 const RecipeDetailScreen = ({ route }) => {
   const { recipeId } = route.params;
   const [recipeDetails, setRecipeDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [instructionsVisible, setInstructionsVisible] = useState(false); // For dropdown
+  const navigation = useNavigation()
 
   useEffect(() => {
     const fetchRecipeDetails = async () => {
@@ -47,34 +51,37 @@ const RecipeDetailScreen = ({ route }) => {
     <ScrollView style={styles.container}>
       {recipeDetails ? (
         <>
-          <Image source={{ uri: recipeDetails.Recipe_img_url }} style={styles.image} />
+          <Image source={{ uri: recipeDetails.img_url }} style={styles.image} />
           <Text style={styles.title}>{recipeDetails.Recipe_title}</Text>
-          <Text style={styles.description}>Calories: {recipeDetails.Calories}</Text>
           <Text style={styles.description}>Continent: {recipeDetails.Continent}</Text>
-          {/* <Text style={styles.description}>Energy(kcal): {recipeDetails.Energy (kcal)}</Text> */}
-          {/* <Text style={styles.description}>Protein (g): {recipeDetails.Protein (g)}</Text> */}
-          {/* <Text style={styles.description}>Total lipid (fat) (g): {recipeDetails.Total lipid (fat) (g)}</Text> */}
-          <Text style={styles.description}>cook time: {recipeDetails.cook_time}</Text>
-          <Text style={styles.description}>prep time: {recipeDetails.prep_time}</Text>
-          <Text style={styles.description}>servings: {recipeDetails.servings}</Text>
-          <Text style={styles.description}>Recipe title: {recipeDetails.Recipe_title}</Text>
-          <Text style={styles.description}>total_time: {recipeDetails.total_time}</Text>
-          <Text style={styles.description}>Calories: {recipeDetails.Calories}</Text>
-          <Text style={styles.description}>url: {recipeDetails.url}</Text>
           <Text style={styles.description}>Region: {recipeDetails.Region}</Text>
           <Text style={styles.description}>Sub region: {recipeDetails.Sub_region}</Text>
-          <Text style={styles.description}>img_url: {recipeDetails.img_url}</Text>
-          {/* <Text style={styles.description}>Carbohydrate: {recipeDetails.Carbohydrate, by difference (g)}</Text> */}
-          <Text style={styles.description}>Processes: {recipeDetails.Processes}</Text>
-          {/* <Text style={styles.description}>Sugars, total (g): {recipeDetails.Sugars, total (g)}</Text> */}
-          {/* <Text style={styles.description}>Glucose (dextrose) (g): {recipeDetails.Glucose (dextrose) (g)}</Text> */}
-          {/* <Text style={styles.description}>Calcium, Ca (mg): {recipeDetails.Calcium, Ca (mg)}</Text> */}
-          {/* <Text style={styles.description}>Energy (kJ): {recipeDetails.Energy (kJ)}</Text> */}
-          {/* <Text style={styles.description}>Alcohol, ethyl (g): {recipeDetails.Alcohol, ethyl (g)}</Text> */}
+          <Text style={styles.description}>Calories: {recipeDetails.Calories}</Text>
+          <Text style={styles.description}>Cook time: {recipeDetails.cook_time} Mins</Text>
+          <Text style={styles.description}>Prep time: {recipeDetails.prep_time} Mins</Text>
+          <Text style={styles.description}>Total time: {recipeDetails.total_time} Mins</Text>
+          <Text style={styles.description}>Servings: {recipeDetails.servings}</Text>
+          {/* Dropdown for Instructions */}
+          <TouchableOpacity
+            style={styles.dropdownToggle}
+            onPress={() => setInstructionsVisible(!instructionsVisible)}
+          >
+            <Text style={styles.dropdownToggleText}>
+              {instructionsVisible ? 'Hide Instructions' : 'Show Instructions'}
+            </Text>
+          </TouchableOpacity>
 
-          <View>
-            <Text style={styles.description}>Calories: {recipeDetails.Calories}</Text>
+          {instructionsVisible && (
+            <View style={styles.instructionsContainer}>
+              <Text style={styles.instructionsText}>{recipeDetails.instructions}</Text>
             </View>
+          )}
+
+          <View style={styles.beverage}>
+            <TouchableOpacity onPress={() => navigation.navigate('BeveragePairing')}>
+              <Text style={styles.beverageText}>Beverage Pairing</Text>
+            </TouchableOpacity>
+          </View>
         </>
       ) : (
         <Text>No recipe details available</Text>
@@ -84,40 +91,81 @@ const RecipeDetailScreen = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { 
-    flex: 1, 
-    padding: 20, 
-    backgroundColor:'beige'
-},
-  loadingContainer: { 
-    flex: 1, 
-    justifyContent: 'center', 
-    alignItems: 'center' 
-},
-  errorText: { 
-    fontSize: 16, 
-    color: 'red', 
-    textAlign: 'center', 
-    marginTop: 20 
-},
-  image: { 
-    width: '100%', 
-    height: 200, 
-    borderRadius: 10 
-},
-  title: { 
-    fontSize: 24, 
-    fontWeight: 'bold', 
-    marginVertical: 10,
-    alignSelf:'center',
-    fontFamily:'serif',
-    fontWeight:"semibold",
-},
-  description: { 
+  container: {
+    flex: 1,
+    padding: 22,
+    backgroundColor: 'beige',
+    paddingBottom: 50,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorText: {
     fontSize: 16,
-     
-    color: '#555' 
-    },
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 20,
+  },
+  image: {
+    width: '100%',
+    height: 200,
+    borderRadius: 10,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginVertical: 10,
+    alignSelf: 'center',
+    fontFamily: 'serif',
+  },
+  description: {
+    fontSize: 16,
+    color: '#555',
+  },
+  dropdownToggle: {
+    marginVertical: 10,
+    backgroundColor: '#D8BFD8',
+    padding: 10,
+    borderRadius: 10,
+    alignItems: 'center',
+    alignSelf: 'stretch',
+  },
+  dropdownToggleText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#4B0082',
+  },
+  instructionsContainer: {
+    marginVertical: 10,
+    padding: 15,
+    backgroundColor: '#FFF',
+    borderRadius: 10,
+    elevation: 3,
+  },
+  instructionsText: {
+    fontSize: 14,
+    color: '#333',
+    lineHeight: 20,
+  },
+  beverage: {
+    backgroundColor: 'thistle',
+    height: 40,
+    width: 140,
+    margin: 10,
+    borderWidth: 1,
+    borderRadius: 25,
+    padding: 6,
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginBottom: 40,
+  },
+  beverageText: {
+    fontFamily: 'serif',
+    alignSelf: 'center',
+  },
 });
 
 export default RecipeDetailScreen;

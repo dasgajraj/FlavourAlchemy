@@ -13,7 +13,7 @@ export default function RecipeListScreen() {
   // Fetch data function defined here
   const fetchData = async () => {
     setLoading(true);
-    setError(null);  // Reset error state before new fetch attempt
+    setError(null); 
     try {
       const fetchedRecipes = await fetchRecipes(query);
       setRecipes(fetchedRecipes);

@@ -1,344 +1,170 @@
-import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  initializeAuth,
-  getReactNativePersistence,
-} from "firebase/auth";
-import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Modal,
-  Platform,
-  Animated,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Keyboard,
-  ImageBackground,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
+// import React, { useState } from "react";
+// import { View, TextInput, TouchableOpacity, Text, StyleSheet, Modal } from "react-native";
+// import { useNavigation } from "@react-navigation/native";
+// import axios from "axios";
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Firebase config remains the same
-const firebaseConfig = {
-  apiKey: "AIzaSyDxWTmBsslJZ80e7mEbDBtCi7FNlrMSuJE",
-  authDomain: "ecanteen-4ab1b.firebaseapp.com",
-  databaseURL: "https://ecanteen-4ab1b-default-rtdb.firebaseio.com",
-  projectId: "ecanteen-4ab1b",
-  storageBucket: "ecanteen-4ab1b.firebasestorage.app",
-  messagingSenderId: "65494167458",
-  appId: " 1:65494167458:web:d3cdfbbafce02a6c5b8cfb",
-  measurementId: "G-P52Q86NJ83",
-};
+// const LoginScreen = () => {
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [modalVisible, setModalVisible] = useState(false);
+//   const [modalMessage, setModalMessage] = useState("");
+//   const navigation = useNavigation();
 
-const app = initializeApp(firebaseConfig);
+//   // Function to display modal with error messages
+//   const showModal = (message) => {
+//     setModalMessage(message);
+//     setModalVisible(true);
+//   };
 
-const auth = initializeAuth(app, {
-  persistence: getReactNativePersistence(ReactNativeAsyncStorage),
-});
+//   // Handle Login functionality
+//   const handleLogin = async () => {
+//     if (!email || !password) {
+//       showModal("Please enter email and password");
+//       return;
+//     }
 
-// AlertModal component remains the same
-const AlertModal = ({ visible, message, onClose }) => {
-  const [animation] = React.useState(new Animated.Value(0));
+//     const API_URL = "http://192.168.161.106:8000/api/token/";  // Include port
 
-  useEffect(() => {
-    if (visible) {
-      animation.setValue(0);
-      Animated.spring(animation, {
-        toValue: 1,
-        friction: 8,
-        tension: 40,
-        useNativeDriver: true,
-      }).start();
-    }
-  }, [visible]);
 
-  const translateY = animation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [300, 0],
-  });
+//     try {
+//       const response = await axios.post(API_URL, {
+//         username: email, // Ensure the correct field name for the backend
+//         password: password,
+//       }, {
+//         headers: {
+//           'Content-Type': 'application/json',
+//           'Accept': 'application/json',
+//         },
+//       });
 
-  const opacity = animation.interpolate({
-    inputRange: [0, 0.5, 1],
-    outputRange: [0, 0.7, 1],
-  });
+//       if (response.data.access && response.data.refresh) {
+//         await AsyncStorage.setItem("access_token", response.data.access);
+//         await AsyncStorage.setItem("refresh_token", response.data.refresh);
+//         console.log('Tokens stored successfully');
+//         navigation.replace("MainHome");
+//       } else {
+//         showModal("Unexpected server response");
+//       }
+//     } catch (error) {
+//       const errorMessage = error.response?.data?.detail ||
+//         error.response?.data?.message ||
+//         error.message ||
+//         "Invalid credentials or error in login";
+//       showModal(errorMessage);
+//     }
+//   };
 
-  return (
-    <Modal transparent visible={visible} onRequestClose={onClose} animationType="none">
-      <View style={styles.modalOverlay}>
-        <Animated.View style={[styles.overlayBackground, { opacity }]} />
-        <Animated.View
-          style={[styles.modalContainer, { transform: [{ translateY }] }]}
-        >
-          <View style={styles.modalContent}>
-            <View style={styles.iconContainer}>
-              <View style={styles.warningIcon} />
-            </View>
-            <Text style={styles.modalTitle}>Alert</Text>
-            <Text style={styles.modalMessage}>{message}</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={onClose}>
-              <Text style={styles.modalButtonText}>Got it</Text>
-            </TouchableOpacity>
-          </View>
-        </Animated.View>
-      </View>
-    </Modal>
-  );
-};
+//   // Test API connection (Optional for debugging)
+//   const testConnection = async () => {
+//     try {
+//       const response = await axios.get(const API_URL = "http://192.168.161.106:8000/api/token/");
+//       console.log('Test connection successful:', response.data);
+//       return true;
+//     } catch (error) {
+//       console.log('Test connection failed:', error.message);
+//       return false;
+//     }
+//   };
 
-export default function LoginScreen() {
-  const navigation = useNavigation();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isSignUp, setIsSignUp] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+//   return (
+//     <View style={styles.container}>
+//       <Text style={styles.title}>Login</Text>
+//       <TextInput
+//         style={styles.input}
+//         placeholder="Your email"
+//         value={email}
+//         onChangeText={setEmail}
+//         keyboardType="email-address"
+//         autoCapitalize="none"
+//       />
+//       <TextInput
+//         style={styles.input}
+//         placeholder="Password"
+//         value={password}
+//         onChangeText={setPassword}
+//         secureTextEntry
+//       />
+//       <TouchableOpacity style={styles.button} onPress={handleLogin}>
+//         <Text style={styles.buttonText}>LOGIN</Text>
+//       </TouchableOpacity>
 
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      "keyboardDidShow",
-      () => setKeyboardVisible(true)
-    );
-    const keyboardDidHideListener = Keyboard.addListener(
-      "keyboardDidHide",
-      () => setKeyboardVisible(false)
-    );
+//       {/* Modal for error messages */}
+//       <Modal visible={modalVisible} onRequestClose={() => setModalVisible(false)} transparent={true}>
+//         <View style={styles.modalOverlay}>
+//           <View style={styles.modalContainer}>
+//             <Text style={styles.modalMessage}>{modalMessage}</Text>
+//             <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeButton}>
+//               <Text style={styles.closeButtonText}>Close</Text>
+//             </TouchableOpacity>
+//           </View>
+//         </View>
+//       </Modal>
 
-    return () => {
-      keyboardDidShowListener.remove();
-      keyboardDidHideListener.remove();
-    };
-  }, []);
+//       {/* Optional debug button to test connection */}
+//       <TouchableOpacity style={styles.button} onPress={testConnection}>
+//         <Text style={styles.buttonText}>Test Connection</Text>
+//       </TouchableOpacity>
+//     </View>
+//   );
+// };
 
-  const showModal = (message) => {
-    setModalMessage(message);
-    setModalVisible(true);
-  };
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: "center",
+//     alignItems: "center",
+//   },
+//   title: {
+//     fontSize: 24,
+//     fontWeight: "bold",
+//     marginBottom: 20,
+//   },
+//   input: {
+//     width: "80%",
+//     padding: 10,
+//     borderWidth: 1,
+//     borderRadius: 5,
+//     marginBottom: 10,
+//   },
+//   button: {
+//     backgroundColor: "#FF6E40",
+//     padding: 15,
+//     borderRadius: 5,
+//     width: "80%",
+//     alignItems: "center",
+//     marginBottom: 10,
+//   },
+//   buttonText: {
+//     color: "#fff",
+//     fontSize: 16,
+//   },
+//   modalOverlay: {
+//     flex: 1,
+//     justifyContent: "center",
+//     alignItems: "center",
+//     backgroundColor: "rgba(0, 0, 0, 0.5)",
+//   },
+//   modalContainer: {
+//     backgroundColor: "#fff",
+//     padding: 20,
+//     borderRadius: 10,
+//     alignItems: "center",
+//   },
+//   modalMessage: {
+//     fontSize: 16,
+//     marginBottom: 20,
+//   },
+//   closeButton: {
+//     backgroundColor: "#FF6E40",
+//     padding: 10,
+//     borderRadius: 5,
+//     alignItems: "center",
+//   },
+//   closeButtonText: {
+//     color: "#fff",
+//     fontSize: 16,
+//   },
+// });
 
-  const navigateToMainApp = () => {
-    // Navigate to MainApp screen which contains the drawer navigator
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'MainApp' }],
-    });
-  };
-
-  const handleLogin = () => {
-    if (!email || !password) {
-      showModal("Please enter email and password");
-      return;
-    }
-
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        // Reset navigation state and navigate to MainApp
-        navigateToMainApp();
-      })
-      .catch((error) => showModal(error.message));
-  };
-
-  const handleSignUp = () => {
-    if (!email || !password) {
-      showModal("Please enter email and password");
-      return;
-    }
-
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        showModal("Account created successfully");
-        // Reset navigation state and navigate to MainApp
-        navigateToMainApp();
-        setIsSignUp(false);
-      })
-      .catch((error) => showModal(error.message));
-  };
-
-  return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
-      <ImageBackground
-        source={require("./assets/bg_main.jpg")}
-        style={styles.background}
-        resizeMode="cover"
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.innerContainer}>
-            <Text style={styles.title}>{isSignUp ? "Sign Up" : "Login"}</Text>
-
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.input}
-                placeholder="Your email"
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                autoCapitalize="none"
-                placeholderTextColor="#999"
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Password"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-                autoCapitalize="none"
-                placeholderTextColor="#999"
-              />
-            </View>
-
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={isSignUp ? handleSignUp : handleLogin}
-              >
-                <Text style={styles.buttonText}>
-                  {isSignUp ? "SIGN UP" : "LOGIN"}
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            {!isKeyboardVisible && (
-              <Text style={styles.signInText}>
-                {isSignUp ? (
-                  <>
-                    Already have an account?{" "}
-                    <Text style={styles.link} onPress={() => setIsSignUp(false)}>
-                      Login
-                    </Text>
-                  </>
-                ) : (
-                  <>
-                    Don't have an account?{" "}
-                    <Text style={styles.link} onPress={() => setIsSignUp(true)}>
-                      Sign Up
-                    </Text>
-                  </>
-                )}
-              </Text>
-            )}
-
-            <AlertModal
-              visible={modalVisible}
-              message={modalMessage}
-              onClose={() => setModalVisible(false)}
-            />
-          </View>
-        </TouchableWithoutFeedback>
-      </ImageBackground>
-    </KeyboardAvoidingView>
-  );
-}
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  background: {
-    flex: 1,
-  },
-  innerContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#fff",
-    marginBottom: 30,
-  },
-  inputContainer: {
-    width: "80%",
-    marginBottom: 20,
-  },
-  input: {
-    padding: 15,
-    borderRadius: 10,
-    backgroundColor: "#fff",
-    marginBottom: 10,
-    color: "#000",
-    borderWidth: 1, // Adding a border
-    borderColor: "#ccc", // Light gray border for better readability
-  },
-  buttonContainer: {
-    width: "80%",
-  },
-  button: {
-    padding: 15,
-    borderRadius: 10,
-    backgroundColor: "#FF6E40",
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  signInText: {
-    color: "#fff",
-    marginTop: 20,
-  },
-  link: {
-    color: "#FF6E40",
-    fontWeight: "bold",
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.4)",
-  },
-  overlayBackground: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "#000",
-    opacity: 0.7,
-  },
-  modalContainer: {
-    backgroundColor: "#fff",
-    width: "80%",
-    padding: 20,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  modalContent: {
-    alignItems: "center",
-  },
-  warningIcon: {
-    width: 30,
-    height: 30,
-    backgroundColor: "#FF6E40",
-    borderRadius: 15,
-    marginBottom: 20,
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  modalMessage: {
-    fontSize: 16,
-    color: "#333",
-    marginBottom: 20,
-  },
-  modalButton: {
-    backgroundColor: "#FF6E40",
-    padding: 10,
-    borderRadius: 5,
-    alignItems: "center",
-  },
-  modalButtonText: {
-    color: "#fff",
-    fontSize: 16,
-  },
-});
+// export default LoginScreen;

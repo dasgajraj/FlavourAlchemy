@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     width: '15%',
     height: 50,
     position: 'relative',
-    right: -325,
+    right: -295,
     top: -50
   },
   goButtonText: {
@@ -185,29 +185,34 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontFamily: 'serif',
     fontSize: 16,
+    width:'80%',
   },
   icon: {
     position: 'absolute',
     left: 20,
-    top: 45,
+    top: 25,
   },
   category: {
-    paddingVertical: 20,
+
     alignSelf: 'center',
-    // marginHorizontal: 30,
+
     borderRadius: 25,
     shadowColor: "thistle",
     marginBottom: 19,
+    // elevation:5
   },
   categoryInside: {
     marginRight: 15,
     padding: 10,
+    paddingLeft: 10,
     borderWidth: 1,
     borderRadius: 25,
     height: 120,
+    fontSize:3,
     flexDirection: 'column',
     width: 60,
-    marginVertical: 10,
+    marginVertical:10,
+    elevation:10
   },
   image: {
     width: 59,
@@ -217,6 +222,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     top: -13,
     left: -10.5,
+    elevation:30
   },
   image_updated:{
     
@@ -238,8 +244,14 @@ const styles = StyleSheet.create({
     marginRight: 15,
     borderRadius: 25,
     height: 200,
-    flexDirection: 'row', // Allow items to scroll horizontally
-    overflow: 'visible', // Ensure visibility for the scroll effect
+    flexDirection: 'row',
+    overflow: 'visible',
+    // elevation:30
+    shadowColor:'thistle',
+    shadowOpacity:1,
+    shadowOffset:{
+      x:9,
+    }
   },
   item: {
     alignItems: 'center',

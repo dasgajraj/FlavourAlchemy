@@ -13,10 +13,10 @@ const SettingsScreen = () => {
 
       <View style={styles.profileContainer}>
         <Image
-          source={{ uri: 'https://randomuser.me/api/portraits/women/79.jpg' }} // Sample profile image
+          source={{ uri: 'https://randomuser.me/api/portraits/men/78.jpg' }} // Sample profile image
           style={styles.profileImage}
         />
-        <Text style={styles.profileName}>Yennefer Doe</Text>
+        <Text style={styles.profileName}>Nishant Garg</Text>
       </View>
 
       <View style={styles.section}>
