@@ -1,3 +1,5 @@
+// Fixed Food Preferences Screen
+
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -11,13 +13,38 @@ import {
   Modal,
   ImageBackground,
 } from "react-native";
-import { getDatabase, ref, set, get, update } from "firebase/database";
+import { initializeApp, getApps, getApp } from 'firebase/app';
+import { getDatabase, ref, set, get } from "firebase/database";
 import { getAuth } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 
+// Your Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDxWTmBsslJZ80e7mEbDBtCi7FNlrMSuJE",
+  authDomain: "ecanteen-4ab1b.firebaseapp.com",
+  databaseURL: "https://ecanteen-4ab1b-default-rtdb.firebaseio.com",
+  projectId: "ecanteen-4ab1b",
+  storageBucket: "ecanteen-4ab1b.firebasestorage.app",
+  messagingSenderId: "65494167458",
+  appId: " 1:65494167458:web:d3cdfbbafce02a6c5b8cfb",
+  measurementId: "G-P52Q86NJ83",
+};
+
+// Initialize Firebase
+let app;
+try {
+  if (getApps().length === 0) {
+    app = initializeApp(firebaseConfig);
+  } else {
+    app = getApp();
+  }
+} catch (error) {
+  console.error("Error initializing Firebase:", error);
+}
+
 export default function PreferencesScreen() {
   const navigation = useNavigation();
-
+  const [database, setDatabase] = useState(null);
   const [foodOptions, setFoodOptions] = useState([
     "Pizza",
     "Burger",
@@ -46,41 +73,58 @@ export default function PreferencesScreen() {
   ];
 
   useEffect(() => {
+    // Initialize database reference
+    try {
+      const db = getDatabase(app);
+      setDatabase(db);
+    } catch (error) {
+      console.error("Error initializing database:", error);
+      Alert.alert("Error", "Failed to initialize database");
+    }
+  }, []);
+
+  useEffect(() => {
     const fetchPreferences = async () => {
-      const user = getAuth().currentUser;
+      if (!database) return;
+
+      const user = getAuth(app).currentUser;
       if (!user) {
         Alert.alert("Error", "User is not authenticated");
         setInitializing(false);
         return;
       }
 
-      const db = getDatabase();
-      const userRef = ref(db, `users/${user.uid}/preferences`);
-
       try {
+        const userRef = ref(database, `users/${user.uid}/preferences`);
         const snapshot = await get(userRef);
+        
         if (snapshot.exists()) {
           const data = snapshot.val();
           setSelectedFoods(data.favoriteFoods || []);
           setSelectedAllergies(data.allergies || []);
-
-          // Load saved custom food items if they exist
-          if (data.customFoods) {
-            setFoodOptions((prevOptions) => [
-              ...prevOptions,
-              ...data.customFoods,
-            ]);
+          
+          if (data.customFoods && Array.isArray(data.customFoods)) {
+            setFoodOptions(prevOptions => {
+              const defaultOptions = prevOptions.slice(0, 8);
+              const uniqueCustomFoods = data.customFoods.filter(
+                food => !defaultOptions.includes(food)
+              );
+              return [...defaultOptions, ...uniqueCustomFoods];
+            });
           }
         }
       } catch (error) {
+        console.error("Error fetching preferences:", error);
         Alert.alert("Error", "Could not load preferences: " + error.message);
       } finally {
         setInitializing(false);
       }
     };
 
-    fetchPreferences();
-  }, []);
+    if (database) {
+      fetchPreferences();
+    }
+  }, [database]);
 
   const handleFoodSelect = (food) => {
     setSelectedFoods((prevSelectedFoods) =>
@@ -103,42 +147,49 @@ export default function PreferencesScreen() {
       Alert.alert("Error", "Please enter a valid food name.");
       return;
     }
-    setFoodOptions((prevOptions) => [...prevOptions, newFood]);
-    setSelectedFoods((prevSelectedFoods) => [...prevSelectedFoods, newFood]);
+
+    if (foodOptions.includes(newFood.trim())) {
+      Alert.alert("Error", "This food is already in your list.");
+      return;
+    }
+
+    setFoodOptions((prevOptions) => [...prevOptions, newFood.trim()]);
+    setSelectedFoods((prevSelectedFoods) => [...prevSelectedFoods, newFood.trim()]);
     setNewFood("");
     setModalVisible(false);
   };
 
-  const handleSubmit = () => {
-    const user = getAuth().currentUser;
+  const handleSubmit = async () => {
+    if (!database) {
+      Alert.alert("Error", "Database not initialized");
+      return;
+    }
+
+    const user = getAuth(app).currentUser;
     if (!user) {
       Alert.alert("Error", "User is not authenticated");
       return;
     }
 
     setLoading(true);
-    const db = getDatabase();
-    const userRef = ref(db, `users/${user.uid}/preferences`);
-    console.log("Selected Food: ", selectedFoods);
-    console.log("Selected Allergies: ", selectedAllergies);
-    navigation.navigate("HomeScreen");
-    set(userRef, {
-      favoriteFoods: selectedFoods,
-      allergies: selectedAllergies,
-      customFoods: foodOptions.slice(8), // Only save custom foods to avoid duplicating default items
-    })
-      .then(() => {
-        Alert.alert(
-          "Success",
-          "Your preferences and allergies have been saved."
-        );
-      })
-      .catch((error) => {
-        Alert.alert("Error", "Could not save preferences: " + error.message);
-      })
-      .finally(() => {
-        setLoading(false);
+    const userRef = ref(database, `users/${user.uid}/preferences`);
+
+    try {
+      await set(userRef, {
+        favoriteFoods: selectedFoods,
+        allergies: selectedAllergies,
+        customFoods: foodOptions.slice(8),
+        lastUpdated: new Date().toISOString(),
       });
+
+      Alert.alert("Success", "Your preferences have been saved.");
+      navigation.navigate("HomeScreen");
+    } catch (error) {
+      console.error("Error saving preferences:", error);
+      Alert.alert("Error", "Could not save preferences: " + error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (initializing) {
@@ -157,47 +208,65 @@ export default function PreferencesScreen() {
       resizeMode="cover"
     >
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>Select Your Favorite Foods</Text>
-        <View style={styles.optionsContainer}>
-          {foodOptions.map((food) => (
-            <TouchableOpacity
-              key={food}
-              style={[
-                styles.optionButton,
-                selectedFoods.includes(food) && styles.selectedOption,
-              ]}
-              onPress={() => handleFoodSelect(food)}
-            >
-              <Text style={styles.optionText}>{food}</Text>
-            </TouchableOpacity>
-          ))}
+        <View style={styles.card}>
+          <Text style={styles.title}>Your Favorite Foods</Text>
+          <View style={styles.optionsContainer}>
+            {foodOptions.map((food) => (
+              <TouchableOpacity
+                key={food}
+                style={[
+                  styles.optionButton,
+                  selectedFoods.includes(food) && styles.selectedOption,
+                ]}
+                onPress={() => handleFoodSelect(food)}
+              >
+                <Text 
+                  style={[
+                    styles.optionText,
+                    selectedFoods.includes(food) && styles.selectedOptionText
+                  ]}
+                >
+                  {food}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => setModalVisible(true)}
+          >
+            <Text style={styles.addButtonText}>+ Add Custom Food</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.card}>
+          <Text style={styles.title}>Your Allergies</Text>
+          <View style={styles.optionsContainer}>
+            {allergyOptions.map((allergy) => (
+              <TouchableOpacity
+                key={allergy}
+                style={[
+                  styles.optionButton,
+                  selectedAllergies.includes(allergy) && styles.selectedAllergy,
+                ]}
+                onPress={() => handleAllergySelect(allergy)}
+              >
+                <Text 
+                  style={[
+                    styles.optionText,
+                    selectedAllergies.includes(allergy) && styles.selectedOptionText
+                  ]}
+                >
+                  {allergy}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
 
         <TouchableOpacity
-          style={styles.addButton}
-          onPress={() => setModalVisible(true)}
-        >
-          <Text style={styles.addButtonText}>+ Add Food</Text>
-        </TouchableOpacity>
-
-        <Text style={styles.title}>Select Your Allergies</Text>
-        <View style={styles.optionsContainer}>
-          {allergyOptions.map((allergy) => (
-            <TouchableOpacity
-              key={allergy}
-              style={[
-                styles.optionButton,
-                selectedAllergies.includes(allergy) && styles.selectedOption,
-              ]}
-              onPress={() => handleAllergySelect(allergy)}
-            >
-              <Text style={styles.optionText}>{allergy}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-
-        <TouchableOpacity
-          style={styles.submitButton}
+          style={[styles.submitButton, loading && styles.disabledButton]}
           onPress={handleSubmit}
           disabled={loading}
         >
@@ -208,25 +277,34 @@ export default function PreferencesScreen() {
           )}
         </TouchableOpacity>
 
-        <Modal visible={modalVisible} transparent animationType="slide">
+        <Modal
+          visible={modalVisible}
+          transparent
+          animationType="slide"
+        >
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
-              <Text style={styles.modalTitle}>Add a New Favorite Food</Text>
+              <Text style={styles.modalTitle}>Add New Food</Text>
               <TextInput
                 style={styles.input}
                 placeholder="Enter food name"
                 value={newFood}
                 onChangeText={setNewFood}
+                autoCapitalize="words"
+                maxLength={30}
               />
               <View style={styles.modalButtons}>
-                <TouchableOpacity style={styles.modalButton} onPress={addNewFood}>
-                  <Text style={styles.modalButtonText}>Add</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.modalButton, { backgroundColor: "#ccc" }]}
+                <TouchableOpacity 
+                  style={[styles.modalButton, styles.cancelButton]}
                   onPress={() => setModalVisible(false)}
                 >
                   <Text style={styles.modalButtonText}>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  style={[styles.modalButton, styles.addModalButton]}
+                  onPress={addNewFood}
+                >
+                  <Text style={styles.modalButtonText}>Add</Text>
                 </TouchableOpacity>
               </View>
             </View>

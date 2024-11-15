@@ -19,15 +19,20 @@ const HomeScreen = () => {
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [seasonal, setSeasonal] = useState(SeasonalDish.seasonalDishes);
-
+  const navigation = useNavigation()
   const [query, setQuery] = useState('');
-  const navigation = useNavigation();
+  
 
-  const handleSearch = async () => {
-    if (searchText.trim()) {  // Check if the searchText is not empty
+  const handleSearch = () => {
+    console.log('Search button pressed');
+    if (searchText.trim()) {
+      console.log('Navigating to RecipeList with query:', searchText);
       navigation.navigate('RecipeList', { query: searchText });
+    } else {
+      console.log('Search text is empty');
     }
   };
+  
 
   const handleCategoryPress = (category) => {
     setSelectedCategory(category);
@@ -116,8 +121,8 @@ const HomeScreen = () => {
               data={selectedCategory.items}
               renderItem={({ item }) => (
                 <View style={styles.categoryInsideUpdated}>
-                  <Image source={{ uri: item.image }} style={styles.image} />
-                  <Text style={styles.name}>{item.name}</Text>
+                  <Image source={{ uri: item.image }} style={styles.image_updated} />
+                  <Text style={styles.name_updated}>{item.name}</Text>
                 </View>
               )}
               keyExtractor={(item) => item.id.toString()}
@@ -133,8 +138,8 @@ const HomeScreen = () => {
               data={seasonal}
               renderItem={({ item }) => (
                 <View style={styles.categoryInsideUpdated}>
-                  <Image source={{ uri: item.image }} style={styles.image} />
-                  <Text style={styles.name}>{item.name}</Text>
+                  <Image source={{ uri: item.image }} style={styles.image_updated} />
+                  <Text style={styles.name_updated}>{item.name}</Text>
                 </View>
               )}
             
@@ -213,6 +218,15 @@ const styles = StyleSheet.create({
     top: -13,
     left: -10.5,
   },
+  image_updated:{
+    
+    width: '100%',
+    height: '100%',
+    borderRadius: 23,
+    borderWidth: 1,
+    
+
+  },
   name: {
     fontSize: 10,
     fontWeight: 'bold',
@@ -233,13 +247,12 @@ const styles = StyleSheet.create({
   },
   selectedCategoryContainer: {
     borderRadius: 25,
-    padding: 5,
+    // padding: 5,
 
   },
   categoryInsideUpdated: {
 
     marginRight: 15,
-    padding: 10,
     borderWidth: 1,
     borderRadius: 25,
     height: 160,
@@ -249,8 +262,16 @@ const styles = StyleSheet.create({
   },
   selectedCategoryTitle: {
     fontSize: 20,
-    alignSelf: 'center',
+    // alignSelf: 'center',
     fontFamily: 'serif',
-    fontWeight: "700"
+    fontWeight: "700",
+    paddingLeft:14,
+  },
+  name_updated:{
+    fontFamily:'serif',
+    color:'white',
+    position:"relative",
+    top:-22,
+    left:10,
   },
 })

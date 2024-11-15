@@ -1,35 +1,46 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity, Button } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function RecipeListScreen() {
   const route = useRoute();
-  const { query } = route.params;
+  const { query = '' } = route.params || {};  
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const fetchedRecipes = await fetchRecipes(query);
-        setRecipes(fetchedRecipes);
-      } catch (error) {
-        console.error('Error during fetch operation:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // Fetch data function defined here
+  const fetchData = async () => {
+    setLoading(true);
+    setError(null);  // Reset error state before new fetch attempt
+    try {
+      const fetchedRecipes = await fetchRecipes(query);
+      setRecipes(fetchedRecipes);
+    } catch (error) {
+      console.error('Error during fetch operation:', error);
+      setError('Failed to load recipes. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchData();
+  useEffect(() => {
+    fetchData(); 
   }, [query]);
 
   const fetchRecipes = async (query) => {
     try {
       const response = await fetch('https://cosylab.iiitd.edu.in/recipe?pageSize=100&page=1');
+
+      // Check if the response is OK (status in the range 200-299)
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
       const { payload } = await response.json();
 
+      // Ensure the data is in the expected format
       if (!payload?.data || !Array.isArray(payload.data)) {
         console.error('Data not found or unexpected format:', payload);
         return [];
@@ -37,8 +48,9 @@ export default function RecipeListScreen() {
 
       const recipesData = payload.data;
 
+      // Filter recipes based on the query
       if (!query || query.trim() === '') {
-        return recipesData;
+        return recipesData; // Return all recipes if no query
       }
 
       const filteredRecipes = recipesData.filter((recipe) =>
@@ -48,7 +60,7 @@ export default function RecipeListScreen() {
       return filteredRecipes;
     } catch (error) {
       console.error('Error fetching recipes:', error);
-      return [];
+      throw new Error('Network error');
     }
   };
 
@@ -60,22 +72,24 @@ export default function RecipeListScreen() {
     <View style={styles.container}>
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
+      ) : error ? (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>{error}</Text>
+          <Button title="Retry" onPress={fetchData} />
+        </View>
       ) : (
-        
         <FlatList
           data={recipes}
           keyExtractor={(item) => item.Recipe_id.toString()}
           renderItem={({ item }) => (
-            <TouchableOpacity style={styles.recipeContainer}
-             onPress={() => handleRecipePress(item)} >
-                 <Text style={styles.recipeTitle}>{item.Recipe_title}</Text>
+            <TouchableOpacity style={styles.recipeContainer} onPress={() => handleRecipePress(item)}>
+              <Text style={styles.recipeTitle}>{item.Recipe_title}</Text>
             </TouchableOpacity>
           )}
           ListEmptyComponent={
             <Text style={styles.emptyText}>No recipes found for "{query}"</Text>
           }
         />
-
       )}
     </View>
   );
@@ -101,4 +115,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 20,
   },
-}); 
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorText: {
+    fontSize: 16,
+    color: 'red',
+    marginBottom: 10,
+  },
+});

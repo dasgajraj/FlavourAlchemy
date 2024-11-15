@@ -1,31 +1,16 @@
-// import { StyleSheet, Text, View } from 'react-native'
-// import React from 'react'
-
-// const Settings = () => {
-//   return (
-//     <View>
-//       <Text>Settings</Text> 
-//     </View>
-//   )
-// }
-
-// export default Settings
-
-// const styles = StyleSheet.create({})
 import React from 'react';
-import { View, Text, Switch, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Switch, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 const SettingsScreen = () => {
   return (
-    <View style={styles.container}>
-      {/* Header */}
+    <ScrollView style={styles.container}>
+   
       <View style={styles.header}>
         <Ionicons name="settings-outline" size={38} color="white" style={styles.icon} />
         <Text style={styles.headerText}>Settings</Text>
       </View>
 
-      {/* User Profile Section */}
       <View style={styles.profileContainer}>
         <Image
           source={{ uri: 'https://randomuser.me/api/portraits/women/79.jpg' }} // Sample profile image
@@ -34,7 +19,6 @@ const SettingsScreen = () => {
         <Text style={styles.profileName}>Yennefer Doe</Text>
       </View>
 
-      {/* Account Settings Section */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Account Settings</Text>
         <TouchableOpacity style={styles.option}>
@@ -51,7 +35,6 @@ const SettingsScreen = () => {
         </View>
       </View>
 
-      {/* More Section */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>More</Text>
         <TouchableOpacity style={styles.option}>
@@ -67,7 +50,7 @@ const SettingsScreen = () => {
           <Ionicons name="chevron-forward-outline" size={20} color="gray" />
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
