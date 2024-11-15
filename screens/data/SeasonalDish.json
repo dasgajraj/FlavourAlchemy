@@ -1,0 +1,145 @@
+{
+    "seasonalDishes": [
+      {
+        "id": 1,
+        "name": "Sarson Ka Saag",
+        "image": "https://example.com/images/sarson_ka_saag.png",
+        "description": "A popular Punjabi dish made with mustard greens, best enjoyed with makki ki roti.",
+        "region": "Punjab"
+      },
+      {
+        "id": 2,
+        "name": "Makki Ki Roti",
+        "image": "https://example.com/images/makki_ki_roti.png",
+        "description": "Cornmeal flatbread, typically served with sarson ka saag in winter.",
+        "region": "Punjab"
+      },
+      {
+        "id": 3,
+        "name": "Gajar Ka Halwa",
+        "image": "https://example.com/images/gajar_ka_halwa.png",
+        "description": "Sweet dessert made from grated carrots, milk, and ghee, commonly served in winter.",
+        "region": "North India"
+      },
+      {
+        "id": 4,
+        "name": "Undhiyu",
+        "image": "https://example.com/images/undhiyu.png",
+        "description": "A mixed vegetable Gujarati dish cooked with seasonal winter vegetables and spices.",
+        "region": "Gujarat"
+      },
+      {
+        "id": 5,
+        "name": "Nolen Gurer Sandesh",
+        "image": "https://example.com/images/nolen_gurer_sandesh.png",
+        "description": "A Bengali dessert made with date palm jaggery, popular during winter.",
+        "region": "West Bengal"
+      },
+      {
+        "id": 6,
+        "name": "Paya Soup",
+        "image": "https://example.com/images/paya_soup.png",
+        "description": "A hearty soup made with goat legs, often enjoyed for warmth during winter.",
+        "region": "Hyderabad"
+      },
+      {
+        "id": 7,
+        "name": "Bajra Khichdi",
+        "image": "https://example.com/images/bajra_khichdi.png",
+        "description": "A comforting khichdi made with pearl millet and moong dal, perfect for cold nights.",
+        "region": "Rajasthan"
+      },
+      {
+        "id": 8,
+        "name": "Tilgul Ladoo",
+        "image": "https://example.com/images/tilgul_ladoo.png",
+        "description": "Ladoos made from sesame seeds and jaggery, popular during Makar Sankranti.",
+        "region": "Maharashtra"
+      },
+      {
+        "id": 9,
+        "name": "Rogan Josh",
+        "image": "https://example.com/images/rogan_josh.png",
+        "description": "A flavorful lamb curry, seasoned with spices to warm you up in winter.",
+        "region": "Kashmir"
+      },
+      {
+        "id": 10,
+        "name": "Doodh Jalebi",
+        "image": "https://example.com/images/doodh_jalebi.png",
+        "description": "Hot milk served with fresh, crispy jalebis, commonly enjoyed in winter evenings.",
+        "region": "North India"
+      },
+      {
+        "id": 11,
+        "name": "Litti Chokha",
+        "image": "https://example.com/images/litti_chokha.png",
+        "description": "A traditional Bihari dish of stuffed dough balls served with mashed vegetables.",
+        "region": "Bihar"
+      },
+      {
+        "id": 12,
+        "name": "Til Ke Ladoo",
+        "image": "https://example.com/images/til_ke_ladoo.png",
+        "description": "Sweet sesame balls made with jaggery, providing warmth during winter.",
+        "region": "North India"
+      },
+      {
+        "id": 13,
+        "name": "Chikki",
+        "image": "https://example.com/images/chikki.png",
+        "description": "A brittle sweet made from jaggery and peanuts, a favorite winter treat.",
+        "region": "Maharashtra"
+      },
+      {
+        "id": 14,
+        "name": "Patrode",
+        "image": "https://example.com/images/patrode.png",
+        "description": "Steamed colocasia leaves layered with a spiced batter, popular in winter.",
+        "region": "Karnataka"
+      },
+      {
+        "id": 15,
+        "name": "Kanji",
+        "image": "https://example.com/images/kanji.png",
+        "description": "A tangy fermented drink made from black carrots, commonly served in winter.",
+        "region": "Punjab"
+      },
+      {
+        "id": 16,
+        "name": "Malai Makhan",
+        "image": "https://example.com/images/malai_makhan.png",
+        "description": "A light, creamy dessert made from milk froth and saffron, enjoyed in winter.",
+        "region": "Uttar Pradesh"
+      },
+      {
+        "id": 17,
+        "name": "Methi Thepla",
+        "image": "https://example.com/images/methi_thepla.png",
+        "description": "Fenugreek flatbreads served with yogurt, perfect for a winter breakfast.",
+        "region": "Gujarat"
+      },
+      {
+        "id": 18,
+        "name": "Kharzi Pulao",
+        "image": "https://example.com/images/kharzi_pulao.png",
+        "description": "A warming rice dish made with mixed spices and vegetables.",
+        "region": "Himachal Pradesh"
+      },
+      {
+        "id": 19,
+        "name": "Harira",
+        "image": "https://example.com/images/harira.png",
+        "description": "A warm milk and dry fruit drink, popular in Kashmir to combat the winter cold.",
+        "region": "Kashmir"
+      },
+      {
+        "id": 20,
+        "name": "Lauki Halwa",
+        "image": "https://example.com/images/lauki_halwa.png",
+        "description": "A warm, delicious dessert made from grated bottle gourd and milk.",
+        "region": "North India"
+      }
+    ]
+  }
+  

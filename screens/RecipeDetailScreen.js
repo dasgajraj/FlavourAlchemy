@@ -50,7 +50,13 @@ const RecipeDetailScreen = ({ route }) => {
           <Image source={{ uri: recipeDetails.Recipe_img_url }} style={styles.image} />
           <Text style={styles.title}>{recipeDetails.Recipe_title}</Text>
           <Text style={styles.description}>Calories: {recipeDetails.Calories}</Text>
-          {/* Add other recipe details like ingredients, instructions, etc. */}
+          <Text style={styles.description}>Continent: {recipeDetails.Continent}</Text>
+          <Text style={styles.description}>Calories: {recipeDetails.Calories}</Text>
+          <Text style={styles.description}>Calories: {recipeDetails.Calories}</Text>
+          <Text style={styles.description}>Calories: {recipeDetails.Calories}</Text>
+          <Text style={styles.description}>Calories: {recipeDetails.Calories}</Text>
+          <Text style={styles.description}>Calories: {recipeDetails.Calories}</Text>
+          <Text style={styles.description}>Calories: {recipeDetails.Calories}</Text>
         </>
       ) : (
         <Text>No recipe details available</Text>
@@ -62,7 +68,8 @@ const RecipeDetailScreen = ({ route }) => {
 const styles = StyleSheet.create({
   container: { 
     flex: 1, 
-    padding: 20 
+    padding: 20, 
+    backgroundColor:'beige'
 },
   loadingContainer: { 
     flex: 1, 

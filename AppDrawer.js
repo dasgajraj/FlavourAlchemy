@@ -12,6 +12,7 @@ import ContactUs from "./screens/DrawerScreens/ContactUs";
 import Help from "./screens/DrawerScreens/Help";
 import { HeaderTitle } from "@react-navigation/elements";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import TabStack from "./TabStack";
 
 const Drawer = createDrawerNavigator();
 
@@ -36,8 +37,8 @@ export default function AppDrawer() {
                 }}
             >
                 <Drawer.Screen
-                    name="HomeScreen"
-                    component={HomeStack}
+                    name="HomeTabs"
+                    component={TabStack}
                     options={{
                         title: 'Dashboard',
                         drawerIcon: ({ color, size }) => (
@@ -45,6 +46,7 @@ export default function AppDrawer() {
                         ),
                     }}
                 />
+                {/* <Drawer.Screen name="Tabs" component={TabStack} /> */}
                 <Drawer.Screen
                     name="MyProfile"
                     component={MyProfile}

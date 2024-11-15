@@ -2,12 +2,12 @@
     {
       "id": 1,
       "name": "Fruits",
-      "image": "https://example.com/fruits.jpg",
+      "image": "./a.png",
       "items": [
         {
           "id": 1,
           "name": "Apple",
-          "image": "https://example.com/apple.jpg"
+          "image": "./b.png"
         },
         {
           "id": 2,
