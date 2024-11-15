@@ -51,12 +51,30 @@ const RecipeDetailScreen = ({ route }) => {
           <Text style={styles.title}>{recipeDetails.Recipe_title}</Text>
           <Text style={styles.description}>Calories: {recipeDetails.Calories}</Text>
           <Text style={styles.description}>Continent: {recipeDetails.Continent}</Text>
+          <Text style={styles.description}>Energy(kcal): {recipeDetails.Energy (kcal)}</Text>
+          <Text style={styles.description}>Protein (g): {recipeDetails.Protein (g)}</Text>
+          {/* <Text style={styles.description}>Total lipid (fat) (g): {recipeDetails.Total lipid (fat) (g)}</Text> */}
+          <Text style={styles.description}>cook time: {recipeDetails.cook_time}</Text>
+          <Text style={styles.description}>prep time: {recipeDetails.prep_time}</Text>
+          <Text style={styles.description}>servings: {recipeDetails.servings}</Text>
+          <Text style={styles.description}>Recipe title: {recipeDetails.Recipe_title}</Text>
+          <Text style={styles.description}>total_time: {recipeDetails.total_time}</Text>
           <Text style={styles.description}>Calories: {recipeDetails.Calories}</Text>
-          <Text style={styles.description}>Calories: {recipeDetails.Calories}</Text>
-          <Text style={styles.description}>Calories: {recipeDetails.Calories}</Text>
-          <Text style={styles.description}>Calories: {recipeDetails.Calories}</Text>
-          <Text style={styles.description}>Calories: {recipeDetails.Calories}</Text>
-          <Text style={styles.description}>Calories: {recipeDetails.Calories}</Text>
+          <Text style={styles.description}>url: {recipeDetails.url}</Text>
+          <Text style={styles.description}>Region: {recipeDetails.Region}</Text>
+          <Text style={styles.description}>Sub region: {recipeDetails.Sub_region}</Text>
+          <Text style={styles.description}>img_url: {recipeDetails.img_url}</Text>
+          {/* <Text style={styles.description}>Carbohydrate: {recipeDetails.Carbohydrate, by difference (g)}</Text> */}
+          <Text style={styles.description}>Processes: {recipeDetails.Processes}</Text>
+          {/* <Text style={styles.description}>Sugars, total (g): {recipeDetails.Sugars, total (g)}</Text> */}
+          <Text style={styles.description}>Glucose (dextrose) (g): {recipeDetails.Glucose (dextrose) (g)}</Text>
+          {/* <Text style={styles.description}>Calcium, Ca (mg): {recipeDetails.Calcium, Ca (mg)}</Text> */}
+          <Text style={styles.description}>Energy (kJ): {recipeDetails.Energy (kJ)}</Text>
+          {/* <Text style={styles.description}>Alcohol, ethyl (g): {recipeDetails.Alcohol, ethyl (g)}</Text> */}
+
+          <View>
+            <Text style={styles.description}>Calories: {recipeDetails.Calories}</Text>
+            </View>
         </>
       ) : (
         <Text>No recipe details available</Text>

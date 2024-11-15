@@ -1,113 +1,156 @@
 [
-    {
-      "id": 1,
-      "name": "Fruits",
-      "image": "./a.png",
-      "items": [
-        {
-          "id": 1,
-          "name": "Apple",
-          "image": "./b.png"
-        },
-        {
-          "id": 2,
-          "name": "Banana",
-          "image": "https://example.com/banana.jpg"
-        },
-        {
-          "id": 3,
-          "name": "Grapes",
-          "image": "https://example.com/grapes.jpg"
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "name": "Vegetables",
-      "image": "https://example.com/vegetables.jpg",
-      "items": [
-        {
-          "id": 1,
-          "name": "Carrot",
-          "image": "https://example.com/carrot.jpg"
-        },
-        {
-          "id": 2,
-          "name": "Broccoli",
-          "image": "https://example.com/broccoli.jpg"
-        },
-        {
-          "id": 3,
-          "name": "Spinach",
-          "image": "https://example.com/spinach.jpg"
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "name": "Grains",
-      "image": "https://example.com/grains.jpg",
-      "items": [
-        {
-          "id": 1,
-          "name": "Rice",
-          "image": "https://example.com/rice.jpg"
-        },
-        {
-          "id": 2,
-          "name": "Wheat",
-          "image": "https://example.com/wheat.jpg"
-        },
-        {
-          "id": 3,
-          "name": "Quinoa",
-          "image": "https://example.com/quinoa.jpg"
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "name": "Dairy",
-      "image": "https://example.com/dairy.jpg",
-      "items": [
-        {
-          "id": 1,
-          "name": "Milk",
-          "image": "https://example.com/milk.jpg"
-        },
-        {
-          "id": 2,
-          "name": "Cheese",
-          "image": "https://example.com/cheese.jpg"
-        },
-        {
-          "id": 3,
-          "name": "Yogurt",
-          "image": "https://example.com/yogurt.jpg"
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "name": "Meats",
-      "image": "https://example.com/meats.jpg",
-      "items": [
-        {
-          "id": 1,
-          "name": "Chicken",
-          "image": "https://example.com/chicken.jpg"
-        },
-        {
-          "id": 2,
-          "name": "Beef",
-          "image": "https://example.com/beef.jpg"
-        },
-        {
-          "id": 3,
-          "name": "Pork",
-          "image": "https://example.com/pork.jpg"
-        }
-      ]
-    }
-  ]
-  
+  {
+    "id": 1,
+    "name": "Indian",
+    "image": "./a.png",
+    "items": [
+      {
+        "id": 1,
+        "name": "Kadhai Paneer",
+        "image": "https://example.com/butter-chicken.jpg"
+      },
+      {
+        "id": 2,
+        "name": "Paneer Tikka",
+        "image": "https://example.com/paneer-tikka.jpg"
+      },
+      {
+        "id": 3,
+        "name": "Biryani",
+        "image": "https://example.com/biryani.jpg"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Italian",
+    "image": "https://example.com/vegetables.jpg",
+    "items": [
+      {
+        "id": 1,
+        "name": "Margherita Pizza",
+        "image": "https://example.com/margherita-pizza.jpg"
+      },
+      {
+        "id": 2,
+        "name": "Spaghetti Carbonara",
+        "image": "https://example.com/spaghetti-carbonara.jpg"
+      },
+      {
+        "id": 3,
+        "name": "Tiramisu",
+        "image": "https://example.com/tiramisu.jpg"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "French",
+    "image": "https://example.com/grains.jpg",
+    "items": [
+      {
+        "id": 1,
+        "name": "Ratatouille",
+        "image": "https://example.com/ratatouille.jpg"
+      },
+      {
+        "id": 2,
+        "name": "Croissants",
+        "image": "https://example.com/croissants.jpg"
+      },
+      {
+        "id": 3,
+        "name": "Crème Brûlée",
+        "image": "https://example.com/creme-brulee.jpg"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Chinese",
+    "image": "https://example.com/dairy.jpg",
+    "items": [
+      {
+        "id": 1,
+        "name": "Sweet and Sour Pork",
+        "image": "https://example.com/sweet-and-sour-pork.jpg"
+      },
+      {
+        "id": 2,
+        "name": "Kung Pao Chicken",
+        "image": "https://example.com/kung-pao-chicken.jpg"
+      },
+      {
+        "id": 3,
+        "name": "Dumplings",
+        "image": "https://example.com/dumplings.jpg"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "American",
+    "image": "https://example.com/meats.jpg",
+    "items": [
+      {
+        "id": 1,
+        "name": "Cheeseburger",
+        "image": "https://example.com/cheeseburger.jpg"
+      },
+      {
+        "id": 2,
+        "name": "BBQ Ribs",
+        "image": "https://example.com/bbq-ribs.jpg"
+      },
+      {
+        "id": 3,
+        "name": "Apple Pie",
+        "image": "https://example.com/apple-pie.jpg"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Japanese",
+    "image": "https://example.com/meats.jpg",
+    "items": [
+      {
+        "id": 1,
+        "name": "Sushi",
+        "image": "https://example.com/sushi.jpg"
+      },
+      {
+        "id": 2,
+        "name": "Ramen",
+        "image": "https://example.com/ramen.jpg"
+      },
+      {
+        "id": 3,
+        "name": "Tempura",
+        "image": "https://example.com/tempura.jpg"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "English",
+    "image": "https://example.com/meats.jpg",
+    "items": [
+      {
+        "id": 1,
+        "name": "Fish and Chips",
+        "image": "https://example.com/fish-and-chips.jpg"
+      },
+      {
+        "id": 2,
+        "name": "Shepherd's Pie",
+        "image": "https://example.com/shepherds-pie.jpg"
+      },
+      {
+        "id": 3,
+        "name": "Full English Breakfast",
+        "image": "https://example.com/full-english-breakfast.jpg"
+      }
+    ]
+  }
+]
