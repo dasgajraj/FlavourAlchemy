@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity, Button } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity, Button, SafeAreaView, Platform } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-
+import { StatusBar } from 'expo-status-bar';
 export default function RecipeListScreen() {
   const route = useRoute();
   const { query = '' } = route.params || {};  
@@ -10,7 +10,6 @@ export default function RecipeListScreen() {
   const [error, setError] = useState(null);
   const navigation = useNavigation();
 
-  // Fetch data function defined here
   const fetchData = async () => {
     setLoading(true);
     setError(null); 
@@ -33,14 +32,12 @@ export default function RecipeListScreen() {
     try {
       const response = await fetch('https://cosylab.iiitd.edu.in/recipe?pageSize=100&page=1');
 
-      // Check if the response is OK (status in the range 200-299)
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
 
       const { payload } = await response.json();
 
-      // Ensure the data is in the expected format
       if (!payload?.data || !Array.isArray(payload.data)) {
         console.error('Data not found or unexpected format:', payload);
         return [];
@@ -48,9 +45,8 @@ export default function RecipeListScreen() {
 
       const recipesData = payload.data;
 
-      // Filter recipes based on the query
       if (!query || query.trim() === '') {
-        return recipesData; // Return all recipes if no query
+        return recipesData;
       }
 
       const filteredRecipes = recipesData.filter((recipe) =>
@@ -69,42 +65,64 @@ export default function RecipeListScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
-      ) : error ? (
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>{error}</Text>
-          <Button title="Retry" onPress={fetchData} />
-        </View>
-      ) : (
-        <FlatList
-          data={recipes}
-          keyExtractor={(item) => item.Recipe_id.toString()}
-          renderItem={({ item }) => (
-            <TouchableOpacity style={styles.recipeContainer} onPress={() => handleRecipePress(item)}>
-              <Text style={styles.recipeTitle}>{item.Recipe_title}</Text>
-            </TouchableOpacity>
-          )}
-          ListEmptyComponent={
-            <Text style={styles.emptyText}>No recipes found for "{query}"</Text>
-          }
-        />
-      )}
-    </View>
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar style="dark" backgroundColor="beige" />
+      <View style={styles.container}>
+        {loading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : error ? (
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorText}>{error}</Text>
+            <Button title="Retry" onPress={fetchData} />
+          </View>
+        ) : (
+          <FlatList
+            contentContainerStyle={styles.listContainer}
+            data={recipes}
+            keyExtractor={(item) => item.Recipe_id.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity style={styles.recipeContainer} onPress={() => handleRecipePress(item)}>
+                <Text style={styles.recipeTitle}>{item.Recipe_title}</Text>
+              </TouchableOpacity>
+            )}
+            ListEmptyComponent={
+              <Text style={styles.emptyText}>No recipes found for "{query}"</Text>
+            }
+          />
+        )}
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: 'beige',
+    paddingTop: Platform.OS === 'android' ? 55 : 0, 
+  },
   container: {
     flex: 1,
-    padding: 10,
+    backgroundColor: 'beige',
+    marginTop: 20, 
+  },
+  listContainer: {
+    padding: 20,
+    paddingTop: Platform.OS === 'ios' ? 60 : 20, 
   },
   recipeContainer: {
     marginBottom: 10,
     backgroundColor: '#f0f0f0',
-    padding: 10,
+    padding: 15,
     borderRadius: 5,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
   },
   recipeTitle: {
     fontSize: 16,
@@ -119,6 +137,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 20,
   },
   errorText: {
     fontSize: 16,

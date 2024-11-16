@@ -18,8 +18,10 @@ const DrawerNavigator = () => {
             drawerContent={(props) => <CustomDrawerContent {...props} />}
             screenOptions={{
                 headerShown: true,
+                headerTitle: '', 
+                headerTransparent: true,
                 drawerStyle: {
-                    backgroundColor: '#f5f5f5',
+                    backgroundColor: '#bcc4cc',
                     width: 280,
                 },
                 drawerActiveTintColor: '#6a1b9a',
@@ -28,6 +30,11 @@ const DrawerNavigator = () => {
                 drawerLabelStyle: {
                     fontSize: 16,
                     fontWeight: '500',
+                },
+                headerStyle: {
+                    backgroundColor: '#bcc4cc', 
+                    elevation: 0, 
+                    shadowOpacity: 0, 
                 },
             }}
         >

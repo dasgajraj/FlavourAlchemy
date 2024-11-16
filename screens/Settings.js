@@ -13,7 +13,7 @@ const SettingsScreen = () => {
 
       <View style={styles.profileContainer}>
         <Image
-          source={{ uri: 'https://randomuser.me/api/portraits/men/78.jpg' }} // Sample profile image
+          source={{ uri: 'https://randomuser.me/api/portraits/men/42.jpg' }} 
           style={styles.profileImage}
         />
         <Text style={styles.profileName}>Nishant Garg</Text>
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FF7F50',
+    backgroundColor: '#bcc4cc',
     padding: 20,
     paddingTop: 30,
     borderBottomLeftRadius: 20,
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   icon: {
-    marginTop: -30, // Adjust this value as needed to move the icon up
+    marginTop: -30, 
   },
 });
 

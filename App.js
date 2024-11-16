@@ -1,20 +1,20 @@
 import "react-native-gesture-handler";
 import { NavigationContainer } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // To check token
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import MainStack from "./MainStack";
-import LoginScreen from './LoginScreen'; // Import the login screen
+import LoginScreen from './LoginScreen';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const checkLoginStatus = async () => {
-      const token = await AsyncStorage.getItem("access_token"); // Check if the token exists
+      const token = await AsyncStorage.getItem("access_token");
       if (token) {
-        setIsLoggedIn(true); // User is logged in
+        setIsLoggedIn(true); 
       } else {
-        setIsLoggedIn(false); // User is not logged in
+        setIsLoggedIn(false);
       }
     };
 

@@ -19,7 +19,6 @@ const ContactUsPage = () => {
       Alert.alert('Error', 'Please fill in all fields.');
       return;
     }
-    // Here you can add functionality to send the message (e.g., to an API or email)
     Alert.alert('Message Sent', 'Thank you for contacting us! We will get back to you soon.');
     setName('');
     setEmail('');
@@ -89,7 +88,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#f4f7fc',
+    backgroundColor: '#bcc4cc',
   },
   header: {
     fontSize: 28,

@@ -37,8 +37,9 @@ const MyAllergiesPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f1f1f1',
-    padding: 20,
+    backgroundColor: '#bcc4cc',
+    padding: 10,
+    paddingTop:90,
   },
   header: {
     fontSize: 36,
@@ -47,18 +48,20 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: '#333',
     textTransform: 'uppercase',
-    fontFamily: 'Playfair Display',
+    fontFamily: 'serif',
   },
   allergiesGrid: {
-    justifyContent: 'space-between',
+    padding:-6
   },
   allergyCard: {
-    width: '48%',
+    width: '46%',
     backgroundColor: '#fff',
     borderRadius: 15,
-    padding: 15,
+    padding: 20,
     marginBottom: 20,
     alignItems: 'center',
+    marginLeft:10
+
   },
   shadowEffect: {
     shadowColor: '#000',

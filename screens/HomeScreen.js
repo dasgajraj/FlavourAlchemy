@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground, ScrollView } from 'react-native'
-import React, { useState } from 'react'
-import { TextInput, FlatList, Button } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground, ScrollView,Platform } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { TextInput, FlatList } from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
 import foodCategory from './data/food-categories.json';
 import { useNavigation } from '@react-navigation/native';
 import SeasonalDish from './data/SeasonalDish.json';
+import { StatusBar } from 'expo-status-bar';
 
 
 const HomeScreen = () => {
@@ -19,10 +20,22 @@ const HomeScreen = () => {
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [seasonal, setSeasonal] = useState(SeasonalDish.seasonalDishes);
+  const [recipeOfTheDay, setRecipeOfTheDay] = useState(null);
   const navigation = useNavigation()
   const [query, setQuery] = useState('');
-  
 
+  useEffect(() => {
+    fetch('https://cosylab.iiitd.edu.in/recipe/recipeOftheDay')
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success === "true") {
+          setRecipeOfTheDay(data.payload); // Save payload data
+        } else {
+          console.error("Failed to fetch Recipe of the Day");
+        }
+      })
+      .catch((error) => console.error("Error fetching Recipe of the Day:", error));
+  }, []);
   const handleSearch = () => {
     console.log('Search button pressed');
     if (searchText.trim()) {
@@ -32,7 +45,7 @@ const HomeScreen = () => {
       console.log('Search text is empty');
     }
   };
-  
+
 
   const handleCategoryPress = (category) => {
     setSelectedCategory(category);
@@ -43,7 +56,11 @@ const HomeScreen = () => {
       source={localImages['background.png']}
       style={styles.backgroundImage}
     >
-      <ScrollView nestedScrollEnabled={true} style={styles.container}>
+      <ScrollView 
+      contentContainerStyle={{ paddingBottom: 70 }}
+      nestedScrollEnabled={true} style={styles.container}>
+         <View style={styles.orangeCircle} />
+         <View style={styles.orangeCircle_up} />
 
         <Ionicons name="search" size={20} color="#888" style={styles.icon} />
 
@@ -129,6 +146,28 @@ const HomeScreen = () => {
             />
           </View>
 
+          {/* Recipe of the Day Section */}
+          {recipeOfTheDay && (
+            <View style={styles.recipeOfTheDayContainer}>
+              {/* Recipe Item */}
+              <FlatList
+                data={[recipeOfTheDay]} // Wrapping in an array for FlatList
+                horizontal={true}
+                renderItem={({ item }) => (
+                  <View style={styles.categoryInsideUpdated}>
+                    <Image source={{ uri: item.img_url }} style={styles.image_updated} />
+                    <Text style={styles.name_updated_up}>{item.Recipe_title}</Text>
+                  </View>
+                )}
+                keyExtractor={(item) => item._id}
+              />
+
+              {/* Recipe of the Day Title */}
+              <Text style={styles.recipeOfTheDayTitle}>Recipe of the Day</Text>
+            </View>
+          )}
+
+
           <View>
             <Text style={{ fontFamily: 'serif', fontSize: 24, marginLeft: 15 }}>Seasonal Dishes - Winter</Text>
             <FlatList
@@ -142,7 +181,7 @@ const HomeScreen = () => {
                   <Text style={styles.name_updated}>{item.name}</Text>
                 </View>
               )}
-            
+
             />
           </View>
         </View>
@@ -157,8 +196,45 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-
+    paddingTop: Platform.OS === "ios" ? 60 : 70,
+    paddingBottom:50,
   },
+  recipeOfTheDayContainer: {
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    marginVertical: 10, 
+    paddingHorizontal: 10, 
+  },
+  recipeOfTheDayTitle: {
+    fontSize: 29,
+    fontFamily: 'serif',
+    marginLeft: 10, 
+    color: '#333', 
+    flex: 2, 
+  },
+  orangeCircle: {
+    position: 'absolute',
+    top: -35, 
+    right: -99, 
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    backgroundColor: 'orange',
+    opacity: 0.7, 
+    zIndex: 0, 
+  },
+  orangeCircle_up: {
+    position: 'absolute',
+    top: -120, 
+    left: -90, 
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    backgroundColor: 'orange',
+    opacity: 0.7, 
+    zIndex: 0, 
+  },
+
   goButton: {
     backgroundColor: 'teal',
     borderRadius: 13,
@@ -185,7 +261,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontFamily: 'serif',
     fontSize: 16,
-    width:'80%',
+    width: '80%',
   },
   icon: {
     position: 'absolute',
@@ -199,7 +275,6 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     shadowColor: "thistle",
     marginBottom: 19,
-    // elevation:5
   },
   categoryInside: {
     marginRight: 15,
@@ -208,11 +283,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 25,
     height: 120,
-    fontSize:3,
+    fontSize: 3,
     flexDirection: 'column',
     width: 60,
-    marginVertical:10,
-    elevation:10
+    marginVertical: 10,
+    elevation: 10
   },
   image: {
     width: 59,
@@ -222,21 +297,20 @@ const styles = StyleSheet.create({
     position: 'relative',
     top: -13,
     left: -10.5,
-    elevation:30
+    elevation: 30
   },
-  image_updated:{
-    
+  image_updated: {
+
     width: '100%',
     height: '100%',
     borderRadius: 23,
     borderWidth: 1,
-    
+
 
   },
   name: {
     fontSize: 10,
     fontWeight: 'bold',
-    // textAlign: 'center',
     fontFamily: 'serif',
   },
   updated: {
@@ -246,11 +320,10 @@ const styles = StyleSheet.create({
     height: 200,
     flexDirection: 'row',
     overflow: 'visible',
-    // elevation:30
-    shadowColor:'thistle',
-    shadowOpacity:1,
-    shadowOffset:{
-      x:9,
+    shadowColor: 'thistle',
+    shadowOpacity: 1,
+    shadowOffset: {
+      x: 9,
     }
   },
   item: {
@@ -259,8 +332,6 @@ const styles = StyleSheet.create({
   },
   selectedCategoryContainer: {
     borderRadius: 25,
-    // padding: 5,
-
   },
   categoryInsideUpdated: {
 
@@ -272,18 +343,35 @@ const styles = StyleSheet.create({
     width: 150,
     marginVertical: 10,
   },
+  categoryInsideUpdated_up: {
+    marginRight: 15,
+    borderWidth: 1,
+    borderRadius: 25,
+    height: 160,
+    flexDirection: "column",
+    width: 150,
+    marginVertical: 10,
+    zIndex: -1,
+  },
   selectedCategoryTitle: {
     fontSize: 20,
-    // alignSelf: 'center',
     fontFamily: 'serif',
     fontWeight: "700",
-    paddingLeft:14,
+    paddingLeft: 14,
   },
-  name_updated:{
-    fontFamily:'serif',
-    color:'white',
-    position:"relative",
-    top:-22,
-    left:10,
+  name_updated: {
+    fontFamily: 'serif',
+    color: 'white',
+    position: "relative",
+    top: -22,
+    left: 10,
+  },
+  name_updated_up: {
+    fontFamily: 'serif',
+    color: '#FF8C00',
+    fontSize:13,
+    position: "relative",
+    top: -150,
+    left: 10,
   },
 })

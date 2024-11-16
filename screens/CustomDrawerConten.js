@@ -8,7 +8,7 @@ const CustomDrawerContent = (props) => {
     <DrawerContentScrollView {...props}>
       <View style={styles.header}>
         <Image
-          source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
+          source={{ uri: 'https://randomuser.me/api/portraits/men/42.jpg' }}
           style={styles.profileImage}
         />
         <Text style={styles.username}>Welcome, Chef!</Text>
@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#c6cbdf',
-    borderRadius:50,
+    backgroundColor: '#bcc4cc',
+    borderRadius:25,
     marginBottom:23,
 
   },

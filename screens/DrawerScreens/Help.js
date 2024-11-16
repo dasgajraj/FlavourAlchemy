@@ -138,7 +138,7 @@ const HelpPage = () => {
       {/* Contact Options */}
       <View style={styles.contactOptions}>
         <TouchableOpacity
-          onPress={() => Linking.openURL('tel:8800475404')}
+          onPress={() => Linking.openURL('tel:8800475xxx')}
         >
           <Text style={styles.contactText}>Call Support</Text>
         </TouchableOpacity>
@@ -212,11 +212,11 @@ const HelpPage = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: '#f8f9fa' },
+  container: { flex: 1, padding: 20, backgroundColor: '#bcc4cc' },
   header: { fontSize: 24, fontWeight: 'bold', marginBottom: 20, textAlign: 'center', color: '#333' },
   searchBar: { borderWidth: 1, borderColor: '#ccc', borderRadius: 8, padding: 10, marginBottom: 20, backgroundColor: '#fff' },
   faqItem: { marginBottom: 15, padding: 10, borderRadius: 8, backgroundColor: '#fff', elevation: 3 },
-  faqQuestion: { fontSize: 16, fontWeight: 'bold', color: '#333' },
+  faqQuestion: { fontSize: 16, fontWeight: 'bold', color: '#333',height:40 },
   faqAnswer: { marginTop: 5, fontSize: 14, color: '#555' },
   chatButton: { backgroundColor: '#007bff', padding: 12, borderRadius: 8, marginTop: 20, alignItems: 'center' },
   chatButtonText: { color: '#fff', fontSize: 16 },

@@ -5,9 +5,9 @@ import { useNavigation } from '@react-navigation/native';
 const { height } = Dimensions.get('window');
 
 const LoadingScreen = () => {
-  const [fadeAnim1] = useState(new Animated.Value(0)); // Fade for the middle image
-  const [fadeAnim2] = useState(new Animated.Value(0)); // Fade for the top image
-  const [fadeAnim3] = useState(new Animated.Value(0)); // Fade for the bottom image
+  const [fadeAnim1] = useState(new Animated.Value(0)); 
+  const [fadeAnim2] = useState(new Animated.Value(0)); 
+  const [fadeAnim3] = useState(new Animated.Value(0)); 
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const LoadingScreen = () => {
         duration: 500,
         useNativeDriver: true,
       }),
-      Animated.delay(2000), // Delay before navigating
+      Animated.delay(2000), 
 
     ]).start(() => {
       navigation.replace('GetStartedScreen');
