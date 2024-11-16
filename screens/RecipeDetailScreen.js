@@ -31,19 +31,13 @@ const RecipeDetailScreen = ({ route }) => {
   const fetchRecipeDetails = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`https://cosylab.iiitd.edu.in/recipe/${recipeId}`);
-      if (!response.ok) {
-        throw new Error(`HTTP error ${response.status}`);
-      }
+      const response = await fetch(`https://cosylab.iiitd.edu.in/recipe/${recipeId}`)
       const { payload } = await response.json();
       setRecipeDetails(payload);
       if (payload.ingredients) {
         const nutrition = calculateNutrition(payload.ingredients);
         setNutritionInfo(nutrition);
       }
-    } catch (error) {
-      console.error('Error fetching recipe details:', error);
-      setError(error.message);
     } finally {
       setLoading(false);
     }
@@ -129,7 +123,7 @@ const RecipeDetailScreen = ({ route }) => {
     }
   };
 
-  // ... (rest of the rendering logic remains the same until the instructions section)
+  
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 70 }}>
@@ -284,9 +278,9 @@ const RecipeDetailScreen = ({ route }) => {
           {/* Beverage Pairing */}
           <View style={styles.beverage}>
             <TouchableOpacity
-              onPress={() => navigation.navigate('BeveragePairing')}
+              onPress={() => navigation.navigate('DrinksList')}
             >
-              <Text style={styles.beverageText}>Beverage Pairing</Text>
+              <Text style={styles.beverageText}>Beverage List</Text>
             </TouchableOpacity>
           </View>
         </>

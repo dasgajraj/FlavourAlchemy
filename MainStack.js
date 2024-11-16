@@ -18,7 +18,7 @@ const MainStack = () => {
       <Stack.Screen name="MainHome" component={HomeScreen} />
       <Stack.Screen name="RecipeList" component={RecipeListScreen} />
       <Stack.Screen name="RecipeDetail" component={RecipeDetailScreen} />
-      {/* <Stack.Screen name="DrinksList" component={DrinksList} /> */}
+      <Stack.Screen name="DrinksList" component={DrinksList} />
       <Stack.Screen name="BeveragePairing" component={PostBeverage} />
       
     </Stack.Navigator>
